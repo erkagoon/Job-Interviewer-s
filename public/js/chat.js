@@ -61,139 +61,141 @@ document.addEventListener('DOMContentLoaded', function() {
     const first_response = document.getElementById('first_response').textContent;
     const objFr = {"content":first_response}
     return_audio(objFr);
-});
 
-let global_chat_message = document.getElementById('global_chat_message');
-let messageReturn = document.getElementById('messageReturn').value;
-let jsonParse = JSON.parse(messageReturn);
-let submitButton = document.getElementById('submit_button');
 
-let chatForm = document.getElementById('chat-form');
-chatForm.addEventListener('submit', function(e) {
-    // Empêche le comportement par défaut du formulaire
-    e.preventDefault();
+    let global_chat_message = document.getElementById('global_chat_message');
+    let messageReturn = document.getElementById('messageReturn').value;
+    let jsonParse = JSON.parse(messageReturn);
+    let submitButton = document.getElementById('submit_button');
 
-    // Désactive le bouton de soumission
-    submitButton.disabled = true;
+    let chatForm = document.getElementById('chat-form');
+    chatForm.addEventListener('submit', function(e) {
+        // Empêche le comportement par défaut du formulaire
+        e.preventDefault();
 
-    // Récupère le message de l'utilisateur et l'ajoute au chat
-    let userMessage = document.getElementById('user-message').value;
-    add_message(userMessage, global_chat_message);
+        // Désactive le bouton de soumission
+        submitButton.disabled = true;
 
-    // Fait défiler jusqu'au dernier message
-    scrollToBottom();
-
-    // Construit le message et l'ajoute à l'historique du chat
-    let actualArrayMessage = {
-        "role": "user",
-        "content": userMessage
-    };
-    jsonParse.push(actualArrayMessage);
-
-    // Envoie le message au serveur et gère la réponse
-    let actionUrl = chatForm.getAttribute('data-action-url');
-    fetch(actionUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: jsonParse })
-    })
-    .then(response => response.text())
-    .then(response => {
-        // Traite la réponse et ajoute la réponse du serveur au chat
-        let responseParse = JSON.parse(response);
-        jsonParse.push(responseParse.choices[0].message);
-        add_message(responseParse.choices[0].message.content, global_chat_message, false);
-
-        // Joue le message audio de la réponse
-        return_audio(responseParse.choices[0].message);
+        // Récupère le message de l'utilisateur et l'ajoute au chat
+        let userMessage = document.getElementById('user-message').value;
+        add_message(userMessage, global_chat_message);
 
         // Fait défiler jusqu'au dernier message
         scrollToBottom();
 
-        // Réactive le bouton de soumission
-        submitButton.disabled = false;
-    })
-    .catch(error => {
-        // Gère les erreurs
-        alert('Erreur lors de l\'envoi du message: ' + error);
-    })
-    .finally(() => {
-        // Réinitialise le formulaire
-        submitButton.disabled = false;
-        document.getElementById('user-message').value = '';
-    });
-});
-
-const microphone_btn = document.getElementById('microphone_btn');
-
-let mediaRecorder;
-let audioChunks = [];
-
-// Obtient l'accès au microphone et configure l'enregistreur
-navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-        // Initialise l'enregistreur avec le flux audio
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = event => {
-            // Collecte les données audio
-            audioChunks.push(event.data);
+        // Construit le message et l'ajoute à l'historique du chat
+        let actualArrayMessage = {
+            "role": "user",
+            "content": userMessage
         };
-        mediaRecorder.onstop = () => {
-            // Crée un blob audio et l'envoie au serveur
-            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-            const formData = new FormData();
-            formData.append('audioFile', audioBlob, 'recording.wav');
-        
-            fetch('/upload-audio', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                // Traite la réponse et déclenche l'envoi du message
-                let userMessage = document.getElementById('user-message');
-                userMessage.value = data;
-                const btn_submit = document.getElementById('submit_button');
-                btn_submit.click();
-            })
-            .catch(error => {
-                // Gère les erreurs
-                console.error('Erreur lors de l\'envoi du fichier audio', error);
-            });
-        };
+        jsonParse.push(actualArrayMessage);
+
+        // Envoie le message au serveur et gère la réponse
+        let actionUrl = chatForm.getAttribute('data-action-url');
+        fetch(actionUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: jsonParse })
+        })
+        .then(response => response.text())
+        .then(response => {
+            // Traite la réponse et ajoute la réponse du serveur au chat
+            let responseParse = JSON.parse(response);
+            jsonParse.push(responseParse.choices[0].message);
+            add_message(responseParse.choices[0].message.content, global_chat_message, false);
+
+            // Joue le message audio de la réponse
+            return_audio(responseParse.choices[0].message);
+
+            // Fait défiler jusqu'au dernier message
+            scrollToBottom();
+
+            // Réactive le bouton de soumission
+            submitButton.disabled = false;
+        })
+        .catch(error => {
+            // Gère les erreurs
+            alert('Erreur lors de l\'envoi du message: ' + error);
+        })
+        .finally(() => {
+            // Réinitialise le formulaire
+            submitButton.disabled = false;
+            document.getElementById('user-message').value = '';
+        });
     });
 
-// Fonctions pour démarrer et arrêter l'enregistrement
-function startRecording() {
-    audioChunks = [];
-    mediaRecorder.start();
-}
+    const microphone_btn = document.getElementById('microphone_btn');
 
-function stopRecording() {
-    mediaRecorder.stop();
-}
+    let mediaRecorder;
+    let audioChunks = [];
 
-let record = false;
+    // Obtient l'accès au microphone et configure l'enregistreur
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+            // Initialise l'enregistreur avec le flux audio
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.ondataavailable = event => {
+                // Collecte les données audio
+                audioChunks.push(event.data);
+            };
+            mediaRecorder.onstop = () => {
+                // Crée un blob audio et l'envoie au serveur
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const formData = new FormData();
+                formData.append('audioFile', audioBlob, 'recording.wav');
+            
+                fetch('/upload-audio', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    // Traite la réponse et déclenche l'envoi du message
+                    let userMessage = document.getElementById('user-message');
+                    userMessage.value = data;
+                    const btn_submit = document.getElementById('submit_button');
+                    btn_submit.click();
+                })
+                .catch(error => {
+                    // Gère les erreurs
+                    console.error('Erreur lors de l\'envoi du fichier audio', error);
+                });
+            };
+        });
 
-// Gère l'enregistrement au clic sur le bouton microphone
-microphone_btn.addEventListener('click', (e)=> {
-    e.preventDefault();
-
-    let micro = document.getElementById('microphone_btn');
-
-    if(record) {
-        // Arrête l'enregistrement
-        stopRecording();
-        record = false;
-        micro.classList.remove('micro_on');
-        micro.classList.add('micro_off');
-    } else {
-        // Démarre l'enregistrement
-        startRecording();
-        record = true;
-        micro.classList.add('micro_on');
-        micro.classList.remove('micro_off');
+    // Fonctions pour démarrer et arrêter l'enregistrement
+    function startRecording() {
+        audioChunks = [];
+        mediaRecorder.start();
     }
+
+    function stopRecording() {
+        mediaRecorder.stop();
+    }
+
+    let record = false;
+
+    // Gère l'enregistrement au clic sur le bouton microphone
+    microphone_btn.addEventListener('click', (e)=> {
+        e.preventDefault();
+
+        let micro = document.getElementById('microphone_btn');
+
+        if(record) {
+            // Arrête l'enregistrement
+            stopRecording();
+            record = false;
+            micro.classList.remove('micro_on');
+            micro.classList.add('micro_off');
+        } else {
+            // Démarre l'enregistrement
+            startRecording();
+            record = true;
+            micro.classList.add('micro_on');
+            micro.classList.remove('micro_off');
+        }
+    });
+
 });
