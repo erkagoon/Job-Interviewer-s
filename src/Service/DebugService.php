@@ -23,7 +23,7 @@ class DebugService
         $content_debug = ob_get_clean();
 
         $projectDir = $this->params->get('kernel.project_dir');
-        $debugDirectory = $projectDir . '\\var\\debug\\';
+        $debugDirectory = $projectDir . '/var/debug/';
 
         file_put_contents($debugDirectory.$fileName.'.txt', $content_debug, FILE_APPEND);
     }

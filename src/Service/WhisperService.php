@@ -22,7 +22,7 @@ class WhisperService
     public function sendMessageToWhisper(UploadedFile $audio): string
     {
         $projectDir = $this->params->get('kernel.project_dir');
-        $tmpDirectory = $projectDir . '\\var\\tmp\\';
+        $tmpDirectory = $projectDir . '/var/tmp/';
         $newFileName = uniqid() . '.' . $audio->guessExtension();
         $audio->move($tmpDirectory, $newFileName);
 
