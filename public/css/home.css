@@ -206,3 +206,66 @@ input[type="submit"]:hover {
     color: #bbb;
     text-align: center;
 }
+
+/* Styles pour les petits écrans (moins de 600px) */
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        padding: 20px;
+        box-shadow: none;
+    }
+
+    #global_chat_home {
+        margin: 0 10px;
+    }
+
+    textarea {
+        height: 100px; /* Réduire la hauteur pour les appareils mobiles */
+    }
+
+    /* Adapter la taille des boutons et des zones de texte */
+    #global_chat_textarea textarea, #submit_button, #microphone_btn {
+        font-size: 14px; /* Réduire la taille de la police */
+    }
+
+    /* Réduire les marges pour les messages */
+    .divMessage, #first_message {
+        margin-bottom: 10px;
+    }
+
+    /* Adapter les dimensions pour les éléments de message */
+    #first_message, .divMessage {
+        padding: 10px;
+    }
+
+    /* Réduire la taille des éléments de rôle */
+    .role {
+        font-size: 12px;
+        padding: 3px 8px;
+        top: -8px;
+    }
+
+    /* Réduire la marge pour les messages de l'utilisateur */
+    .divMessage.user {
+        margin-left: 15%;
+    }
+
+    /* Réduire la taille des images du microphone */
+    #microphone_btn img {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Styles pour les écrans très petits (moins de 400px) */
+@media (max-width: 400px) {
+    p {
+        font-size: 16px; /* Réduire encore la taille de la police pour les paragraphes */
+    }
+
+    /* Adapter la mise en page des messages pour les écrans très étroits */
+    .divMessage.user, .divMessage.recruteur {
+        width: 100%;
+        margin-left: 0;
+    }
+}
