@@ -207,6 +207,20 @@ input[type="submit"]:hover {
     text-align: center;
 }
 
+/* Pour les navigateurs basés sur Chromium */
+*::-webkit-scrollbar {
+    width: 8px; /* ou une autre largeur selon vos besoins */
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent; /* ou une autre couleur/style selon vos besoins */ 
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: darkgrey; /* ou une autre couleur/style selon vos besoins */
+    border-radius: 10px; /* ou un autre rayon selon vos besoins */
+}
+
 /* Styles pour les petits écrans (moins de 600px) */
 @media (max-width: 600px) {
     .container {
