@@ -228,11 +228,6 @@ input[type="submit"]:hover {
         font-size: 14px; /* Réduire la taille de la police */
     }
 
-    /* Réduire les marges pour les messages */
-    .divMessage, #first_message {
-        margin-bottom: 10px;
-    }
-
     /* Adapter les dimensions pour les éléments de message */
     #first_message, .divMessage {
         padding: 10px;
