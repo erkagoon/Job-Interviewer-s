@@ -15,8 +15,10 @@ function add_message(message, element, user=true) {
     // Affiche "User" ou "Recruteur" selon que 'user' est vrai ou faux
     if(user) {
         divRole.textContent = "User";
+        divMessage.setAttribute("class", "divMessage user");
     } else {
         divRole.textContent = "Recruteur";
+        divMessage.setAttribute("class", "divMessage recruteur");
     }
 
     // Ajoute les éléments de rôle et de message à divMessage
@@ -28,6 +30,7 @@ function add_message(message, element, user=true) {
 }
 
 function return_audio(message) {
+    let audio;
     // Envoie une requête POST avec le message en JSON
     fetch('/return-audio', {
         method: 'POST',
@@ -40,7 +43,7 @@ function return_audio(message) {
     .then(blob => {
         // Crée un URL pour le blob audio et joue l'audio
         const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
+        audio = new Audio(url);
         audio.play();
     })
     .catch(error => console.error('Error:', error));
