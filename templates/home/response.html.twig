@@ -1,0 +1,32 @@
+{# templates/home/response.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <title>Entretien d'embauche</title>
+</head>
+<body>
+    <h1>Mon entretien</h1>
+
+    <div id="global_chat_home">
+        <div id="global_chat_message">
+            <div id="first_message">
+                <div class="role">Recruteur</div>
+                <p id="first_response">{{ response }}</p>
+            </div>
+        </div>
+        <div id="global_chat_textarea">
+            <form id="chat-form" data-action-url="{{ path('handle_ajax_message') }}">
+                <textarea id="user-message"></textarea>
+                <button id="microphone_btn" class="micro_off"><img src="{{ asset('img/microphone.svg') }}" alt="microphone"/></button>
+                <button id="submit_button" type="submit">Envoyer</button>
+            </form>
+        </div>
+    </div>
+    <input type="hidden" id="messageReturn" value="{{ messageReturn }}"/>
+    <a href="{{ path('Home') }}">Retour à la page d'accueil</a>
+
+    <script src="{{ asset('js/chat.js') }}?v={{ "now"|date('U') }}"></script>
+
+</body>
+</html>

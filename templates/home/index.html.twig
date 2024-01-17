@@ -1,0 +1,17 @@
+{# templates/home/index.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <title>Job Interviewer's</title>
+</head>
+<body>
+    <h1>Qu'est-ce que Job Interviewer's ?</h1>
+    <p>Job Interviewer's est un simulateur d'entretien. Il se sert des intelligences artificielles pour vous préparer aux différentes questions que pourrait vous poser un employeur.</p>
+    <p>Pour commencer, copier/coller votre offre d'emploi dans le champs ci-dessous puis cliquait sur "Commencer" pour démarrer l'entretien.</p>
+    <form action="{{ path('entretien') }}" method="post">
+        <textarea name="prompt" placeholder="Entrez votre offre d'emploi ici"></textarea><br>
+        <input type="submit" value="Commencer">
+    </form>
+</body>
+</html>
