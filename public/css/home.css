@@ -26,14 +26,6 @@ p {
     line-height: 1.4;
 }
 
-/* form {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-} */
-
 textarea {
     width: 100%;
     height: 150px;
@@ -207,21 +199,19 @@ input[type="submit"]:hover {
     text-align: center;
 }
 
-/* Pour les navigateurs basés sur Chromium */
 *::-webkit-scrollbar {
-    width: 8px; /* ou une autre largeur selon vos besoins */
+    width: 8px; 
 }
 
 *::-webkit-scrollbar-track {
-    background: transparent; /* ou une autre couleur/style selon vos besoins */ 
+    background: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: darkgrey; /* ou une autre couleur/style selon vos besoins */
-    border-radius: 10px; /* ou un autre rayon selon vos besoins */
+    background-color: darkgrey;
+    border-radius: 10px;
 }
 
-/* Styles pour les petits écrans (moins de 600px) */
 @media (max-width: 600px) {
     .container {
         width: 100%;
@@ -234,45 +224,38 @@ input[type="submit"]:hover {
     }
 
     textarea {
-        height: 100px; /* Réduire la hauteur pour les appareils mobiles */
+        height: 100px;
     }
 
-    /* Adapter la taille des boutons et des zones de texte */
     #global_chat_textarea textarea, #submit_button, #microphone_btn {
-        font-size: 14px; /* Réduire la taille de la police */
+        font-size: 14px;
     }
 
-    /* Adapter les dimensions pour les éléments de message */
     #first_message, .divMessage {
         padding: 10px;
     }
 
-    /* Réduire la taille des éléments de rôle */
     .role {
         font-size: 12px;
         padding: 3px 8px;
         top: -8px;
     }
 
-    /* Réduire la marge pour les messages de l'utilisateur */
     .divMessage.user {
         margin-left: 15%;
     }
 
-    /* Réduire la taille des images du microphone */
     #microphone_btn img {
         width: 20px;
         height: 20px;
     }
 }
 
-/* Styles pour les écrans très petits (moins de 400px) */
 @media (max-width: 400px) {
     p {
-        font-size: 16px; /* Réduire encore la taille de la police pour les paragraphes */
+        font-size: 16px;
     }
 
-    /* Adapter la mise en page des messages pour les écrans très étroits */
     .divMessage.user, .divMessage.recruteur {
         width: 100%;
         margin-left: 0;
